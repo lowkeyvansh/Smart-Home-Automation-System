@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Device</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Add Device</h1>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+    <main>
+        <form action="{{ url_for('add_device') }}" method="POST">
+            {{ form.hidden_tag() }}
+            <label for="name">Device Name:</label>
+            {{ form.name }}
+            <label for="type">Device Type:</label>
+            {{ form.type }}
+            <label for="value">Value (e.g., brightness or temperature):</label>
+            {{ form.value }}
+            {{ form.submit }}
+        </form>
+    </main>
+</body>
+</html>
