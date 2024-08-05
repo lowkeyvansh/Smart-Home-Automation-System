@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Automation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Smart Home Automation</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="{{ url_for('add_device') }}">Add Device</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Devices</h2>
+        <div class="device-list">
+            {% for device in devices %}
+                <div class="device">
+                    <h3>{{ device.name }}</h3>
+                    <p><strong>Type:</strong> {{ device.type }}</p>
+                    <p><strong>Status:</strong> {{ device.status }}</p>
+                    {% if device.type == 'light' %}
+                        <p><strong>Brightness:</strong> {{ device.value }}</p>
+                    {% elif device.type == 'thermostat' %}
+                        <p><strong>Temperature:</strong> {{ device.value }}</p>
+                    {% endif %}
+                    <form action="{{ url_for('toggle_device', id=device.id) }}" method="POST">
+                        <button type="submit">Turn {{ 'off' if device.status == 'on' else 'on' }}</button>
+                    </form>
+                    <form action="{{ url_for('set_value', id=device.id) }}" method="POST">
+                        <label for="value">Set Value:</label>
+                        <input type="number" id="value" name="value" min="0" max="100" value="{{ device.value }}" required>
+                        <button type="submit">Set</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
